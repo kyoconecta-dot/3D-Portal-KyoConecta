@@ -1,0 +1,5 @@
+# facilitador: config com chave da impressora e trabalhos locais nunca vão para o git
+facilitador/config.local.json
+facilitador/trabalhos/
+__pycache__/
+*.pyc

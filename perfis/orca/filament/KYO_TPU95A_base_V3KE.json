@@ -1,7 +1,7 @@
 {
     "type": "filament",
     "name": "KYO_TPU95A_base_V3KE",
-    "inherits": "Generic TPU @Creality Ender-3V3-all",
+    "inherits": "Creality Generic TPU @Ender-3V3-all",
     "from": "User",
     "instantiation": "true",
     "filament_settings_id": [

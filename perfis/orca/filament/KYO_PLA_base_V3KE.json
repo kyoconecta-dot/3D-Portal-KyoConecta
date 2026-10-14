@@ -1,7 +1,7 @@
 {
     "type": "filament",
     "name": "KYO_PLA_base_V3KE",
-    "inherits": "Generic PLA @Creality Ender-3V3-all",
+    "inherits": "Creality Generic PLA @Ender-3V3-all",
     "from": "User",
     "instantiation": "true",
     "filament_settings_id": [

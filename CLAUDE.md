@@ -20,6 +20,7 @@ Contexto fixo para toda sessão do Claude Code neste repositório.
 - `perfis/filamentos.csv` — catálogo fio → perfil Orca (temperaturas, ventoinha, retração, obs. PEI)
 - `perfis/qualidades.csv` — rapida/normal/fina → perfil de processo
 - `perfis/orca/{machine,filament,process}/` — perfis OrcaSlicer (JSON de usuário herdando do sistema Creality V3 KE); ver README
+- `facilitador/` — app local do PC do primo (STL → OrcaSlicer CLI → Moonraker); ver README
 - `fila/` — (futuro) trabalhos aguardando impressão
 - `modelos/` — STL/3MF organizados por projeto ou cliente
 - `problemas/` — base de conhecimento de falhas e correções
@@ -36,9 +37,9 @@ Contexto: a impressora fica com o primo (amador, PC Windows); o dono do repo (ex
 
 ## Roadmap
 1. [x] Perfis base + tabela de filamentos/qualidades + validador (valores base, ajustar após teste)
-2. [ ] Facilitador local: OrcaSlicer CLI + envio ao Moonraker
+2. [x] Facilitador local: OrcaSlicer CLI + envio ao Moonraker (testado com Orca 2.4.2 e Moonraker simulado; falta teste real no Windows/impressora)
 3. [ ] Assinatura HMAC + token Moonraker
 4. [ ] Tailscale (acesso remoto)
 5. [ ] Skill Claude para o dono
 
-Pendente: regra de assinatura das peças do primo (sugestão: chave por pessoa); custos reais (R$/kg, R$/kWh, watts) em `scripts/custo.py`; importar histórico de chats antigos; exportar perfis reais do OrcaSlicer.
+Pendente: teste real do facilitador no Windows + impressora; sincronizar `facilitador/trabalhos/historico.csv` com `log/impressoes.csv`; regra de assinatura das peças do primo (sugestão: chave por pessoa); custos reais (R$/kg, R$/kWh, watts) em `scripts/custo.py`; importar histórico de chats antigos; exportar perfis reais do OrcaSlicer.

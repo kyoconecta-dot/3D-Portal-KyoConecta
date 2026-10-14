@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impressora 3D</title>
+<style>
+  :root { --bg:#f5f6f8; --card:#fff; --txt:#1d2430; --sub:#5c6675; --borda:#d8dde5; --pri:#1f6feb; --ok:#1a7f37; --erro:#cf222e; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0f1318; --card:#181e26; --txt:#e6edf3; --sub:#9aa5b1; --borda:#2d3540; --pri:#4493f8; --ok:#3fb950; --erro:#f85149; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--txt); font:16px/1.45 system-ui, sans-serif; }
+  main { max-width:640px; margin:0 auto; padding:16px; }
+  h1 { font-size:1.3rem; margin:0 0 12px; }
+  .card { background:var(--card); border:1px solid var(--borda); border-radius:10px; padding:16px; margin-bottom:14px; }
+  #zona { border:2px dashed var(--borda); border-radius:10px; padding:28px 12px; text-align:center; cursor:pointer; color:var(--sub); }
+  #zona.ativa { border-color:var(--pri); color:var(--pri); }
+  #zona strong { color:var(--txt); }
+  label { display:block; font-weight:600; margin:12px 0 4px; }
+  select { width:100%; padding:10px; font-size:1rem; border:1px solid var(--borda); border-radius:8px; background:var(--card); color:var(--txt); }
+  .dica { color:var(--sub); font-size:.88rem; margin-top:4px; }
+  .linha { display:flex; gap:8px; align-items:center; margin-top:12px; }
+  button { padding:12px 16px; font-size:1rem; border-radius:8px; border:1px solid var(--borda); background:var(--card); color:var(--txt); cursor:pointer; flex:1; }
+  button.pri { background:var(--pri); border-color:var(--pri); color:#fff; font-weight:600; }
+  button:disabled { opacity:.5; cursor:default; }
+  .num { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; text-align:center; }
+  .num b { display:block; font-size:1.35rem; }
+  .num span { color:var(--sub); font-size:.85rem; }
+  .msg { padding:10px 12px; border-radius:8px; margin-top:12px; display:none; }
+  .msg.ok { display:block; background:color-mix(in srgb, var(--ok) 15%, transparent); color:var(--ok); }
+  .msg.erro { display:block; background:color-mix(in srgb, var(--erro) 15%, transparent); color:var(--erro); }
+  #impressora { color:var(--sub); font-size:.92rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Impressora 3D — Ender 3 V3 KE</h1>
+  <div class="card" id="impressora">Consultando impressora…</div>
+
+  <div class="card">
+    <div id="zona">Arraste o arquivo aqui<br><strong>ou toque para escolher</strong><br><span class="dica">STL, 3MF, OBJ ou STEP</span></div>
+    <input type="file" id="arquivo" accept=".stl,.3mf,.obj,.step,.stp" hidden>
+    <label for="filamento">Filamento</label>
+    <select id="filamento"></select>
+    <div class="dica" id="dicaFil"></div>
+    <label for="qualidade">Qualidade</label>
+    <select id="qualidade"></select>
+    <div class="dica" id="dicaQual"></div>
+    <label class="linha" style="font-weight:400"><input type="checkbox" id="suporte"> Precisa de suporte (partes no ar)</label>
+    <div class="linha"><button class="pri" id="btFatiar" disabled>Calcular</button></div>
+    <div class="msg" id="msgFatiar"></div>
+  </div>
+
+  <div class="card" id="resultado" hidden>
+    <div class="num">
+      <div><b id="rTempo">–</b><span>tempo</span></div>
+      <div><b id="rPeso">–</b><span>filamento</span></div>
+      <div><b id="rCusto">–</b><span>custo</span></div>
+    </div>
+    <div class="dica" id="rDet" style="text-align:center;margin-top:8px"></div>
+    <div class="linha">
+      <button id="btEnviar">Só enviar</button>
+      <button class="pri" id="btImprimir">Enviar e imprimir</button>
+    </div>
+    <div class="msg" id="msgEnviar"></div>
+  </div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let arquivo = null, opcoes = null, trabalho = null;
+
+function msg(el, texto, tipo) { el.textContent = texto; el.className = 'msg ' + tipo; }
+async function api(url, opts) {
+  const r = await fetch(url, opts);
+  const j = await r.json().catch(() => ({erro: 'resposta inválida'}));
+  if (!r.ok) throw new Error(j.erro || ('erro ' + r.status));
+  return j;
+}
+
+async function carregar() {
+  opcoes = await api('/api/opcoes');
+  for (const f of opcoes.filamentos) $('filamento').add(new Option(f.rotulo, f.id));
+  for (const q of opcoes.qualidades) $('qualidade').add(new Option(q.rotulo, q.id));
+  $('qualidade').value = 'normal';
+  dicas();
+  if (!opcoes.orca_ok) msg($('msgFatiar'), 'OrcaSlicer não encontrado. Avise o responsável.', 'erro');
+}
+function dicas() {
+  const f = opcoes.filamentos.find(x => x.id === $('filamento').value);
+  const q = opcoes.qualidades.find(x => x.id === $('qualidade').value);
+  $('dicaFil').textContent = f ? f.obs : '';
+  $('dicaQual').textContent = q ? q.obs : '';
+  $('resultado').hidden = true;
+}
+['filamento', 'qualidade', 'suporte'].forEach(id => $(id).addEventListener('change', dicas));
+
+function escolher(f) {
+  if (!f) return;
+  arquivo = f;
+  $('zona').innerHTML = '<strong>' + f.name.replace(/</g, '&lt;') + '</strong><br><span class="dica">toque para trocar</span>';
+  $('btFatiar').disabled = false;
+  $('resultado').hidden = true;
+}
+$('zona').onclick = () => $('arquivo').click();
+$('arquivo').onchange = e => escolher(e.target.files[0]);
+$('zona').ondragover = e => { e.preventDefault(); $('zona').classList.add('ativa'); };
+$('zona').ondragleave = () => $('zona').classList.remove('ativa');
+$('zona').ondrop = e => { e.preventDefault(); $('zona').classList.remove('ativa'); escolher(e.dataTransfer.files[0]); };
+
+$('btFatiar').onclick = async () => {
+  $('btFatiar').disabled = true; $('resultado').hidden = true;
+  msg($('msgFatiar'), 'Calculando… pode levar alguns minutos.', 'ok');
+  const p = new URLSearchParams({nome: arquivo.name, filamento: $('filamento').value,
+    qualidade: $('qualidade').value, suporte: $('suporte').checked ? '1' : '0'});
+  try {
+    trabalho = await api('/api/fatiar?' + p, {method: 'POST', body: arquivo});
+    $('rTempo').textContent = trabalho.tempo_txt;
+    $('rPeso').textContent = trabalho.peso_g.toFixed(0) + ' g';
+    $('rCusto').textContent = 'R$ ' + trabalho.custo.total.toFixed(2).replace('.', ',');
+    $('rDet').textContent = `filamento R$ ${trabalho.custo.filamento.toFixed(2)} + energia R$ ${trabalho.custo.energia.toFixed(2)}`.replace(/\./g, ',');
+    $('resultado').hidden = false; $('msgFatiar').className = 'msg'; $('msgEnviar').className = 'msg';
+  } catch (e) { msg($('msgFatiar'), e.message, 'erro'); }
+  $('btFatiar').disabled = false;
+};
+
+async function enviar(imprimir) {
+  if (imprimir && !confirm('Mesa limpa, filamento certo carregado e nada sobre a mesa?')) return;
+  $('btEnviar').disabled = $('btImprimir').disabled = true;
+  try {
+    const r = await api('/api/enviar?' + new URLSearchParams({id: trabalho.id, imprimir: imprimir ? '1' : '0'}), {method: 'POST'});
+    msg($('msgEnviar'), r.imprimindo ? 'Impressão iniciada: ' + r.arquivo : 'Enviado: ' + r.arquivo, 'ok');
+    status();
+  } catch (e) { msg($('msgEnviar'), e.message, 'erro'); }
+  $('btEnviar').disabled = $('btImprimir').disabled = false;
+}
+$('btEnviar').onclick = () => enviar(false);
+$('btImprimir').onclick = () => enviar(true);
+
+const ESTADOS = {standby: 'parada', printing: 'imprimindo', paused: 'pausada', complete: 'terminou', cancelled: 'cancelada', error: 'erro'};
+async function status() {
+  try {
+    const s = await api('/api/impressora');
+    let t = `Impressora: ${ESTADOS[s.estado] || s.estado} · bico ${s.bico}°C · mesa ${s.mesa}°C`;
+    if (s.estado === 'printing' || s.estado === 'paused') t += ` · ${s.progresso}% ${s.arquivo}`;
+    $('impressora').textContent = t;
+  } catch (e) { $('impressora').textContent = 'Impressora: ' + e.message; }
+}
+carregar().catch(e => msg($('msgFatiar'), e.message, 'erro'));
+status(); setInterval(status, 10000);
+</script>
+</body>
+</html>

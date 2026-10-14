@@ -1,0 +1,8 @@
+{
+    "orca_exe": "C:\\Program Files\\OrcaSlicer\\orca-slicer.exe",
+    "moonraker_url": "http://192.168.0.50:7125",
+    "moonraker_api_key": "COLE_A_CHAVE_AQUI",
+    "preco_kg": {"PLA": 100.0, "PETG": 110.0, "TPU": 150.0},
+    "kwh": 0.90,
+    "watts": 150.0
+}

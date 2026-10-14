@@ -30,5 +30,5 @@ Alternativa: *Arquivo → Exportar → Exportar pacote de presets* gera um `.zip
 ## Importar no Orca (PC do primo, uso manual)
 *Arquivo → Importar → Importar configurações* e selecione os JSON. O facilitador não depende disso: passa os arquivos direto ao CLI.
 
-## A verificar no passo 2
-Se o OrcaSlicer CLI resolve `inherits` de perfis de usuário. Se não resolver, gerar perfil "achatado" (sistema + diferenças) por script antes de fatiar.
+## Como o facilitador usa estes perfis
+O CLI do Orca 2.4.2 resolve `inherits` de processo/filamento, mas não do perfil de máquina de usuário (G-code sai sem `G92 E0` e o fatiamento falha). Por isso `facilitador/perfis.py` "achata" cada perfil (resolve a cadeia contra `resources/profiles` do Orca instalado) antes de chamar o CLI. Nomes de sistema seguem a 2.4.2 (`Creality Generic PLA @Ender-3V3-all`); o achatador aceita também o nome novo do `main` (`Generic PLA @Creality Ender-3V3-all`).

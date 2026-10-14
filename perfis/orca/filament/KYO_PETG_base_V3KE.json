@@ -1,7 +1,7 @@
 {
     "type": "filament",
     "name": "KYO_PETG_base_V3KE",
-    "inherits": "Generic PETG @Creality Ender-3V3-all",
+    "inherits": "Creality Generic PETG @Ender-3V3-all",
     "from": "User",
     "instantiation": "true",
     "filament_settings_id": [
