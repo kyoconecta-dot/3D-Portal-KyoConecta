@@ -43,7 +43,7 @@ Contexto: a impressora fica com o primo (amador, PC Windows); o dono do repo (ex
 5. [ ] Skill Claude para o dono
 6. [ ] Orçamentos: gerar orçamento para cliente a partir do fatiamento (reaproveita `facilitador/fatiar.py`: tempo, peso, custo de filamento e energia).
    - Usuários: 3, todos geram orçamento (dono, primo, esposa do primo).
-   - Preço: custo calculado × multiplicadores, com ajuste manual livre ("feeling") antes de fechar. Valores dos multiplicadores a importar dos chats antigos.
+   - Preço: custo calculado × multiplicadores, com ajuste manual livre ("feeling") antes de fechar. Regra de precificação em desenvolvimento em chat paralelo; integrar aqui quando fechada.
    - PDF para o cliente com identidade KyoConecta adaptada ao braço KyoConecta 3D. Fase 1: só troca da paleta de cores. Fase 2: adaptações estéticas (ícones, pattern, fotos).
 
 Usuários do sistema: 3 (dono, primo, esposa do primo). Assinatura de impressão (passo 3): uma chave por pessoa, 3 chaves.
