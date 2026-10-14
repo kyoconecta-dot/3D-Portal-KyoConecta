@@ -1,0 +1,9 @@
+{
+    "type": "machine",
+    "name": "KYO_V3KE_0.4",
+    "inherits": "Creality Ender-3 V3 KE 0.4 nozzle",
+    "from": "User",
+    "instantiation": "true",
+    "printer_settings_id": "KYO_V3KE_0.4",
+    "version": "2.3.0.0"
+}

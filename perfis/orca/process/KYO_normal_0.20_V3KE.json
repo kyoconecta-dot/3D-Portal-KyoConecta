@@ -1,0 +1,17 @@
+{
+    "type": "process",
+    "name": "KYO_normal_0.20_V3KE",
+    "inherits": "0.20mm Standard @Creality Ender3V3KE",
+    "from": "User",
+    "instantiation": "true",
+    "print_settings_id": "KYO_normal_0.20_V3KE",
+    "layer_height": "0.2",
+    "enable_support": "0",
+    "brim_type": "auto_brim",
+    "wall_loops": "3",
+    "sparse_infill_density": "20%",
+    "compatible_printers": [
+        "Creality Ender-3 V3 KE 0.4 nozzle"
+    ],
+    "version": "2.3.0.0"
+}

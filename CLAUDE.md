@@ -12,12 +12,33 @@ Contexto fixo para toda sessão do Claude Code neste repositório.
 1. Antes de imprimir, validar o 3MF (skill validate-3mf ou `scripts/`).
 2. Toda impressão relevante entra em `log/impressoes.csv`.
 3. Todo defeito resolvido vira um arquivo em `problemas/` (sintoma, causa, ajuste no OrcaSlicer, resultado).
-4. Análises e cálculos: preferir scripts Python em `scripts/` a análise manual.
-5. Uso principal pelo celular (S22): respostas curtas e objetivas.
+4. Mudou perfil ou tabela → rodar `python scripts/validar_perfis.py`.
+5. Análises e cálculos: preferir scripts Python em `scripts/` a análise manual.
+6. Uso principal pelo celular (S22): respostas curtas e objetivas.
 
 ## Estrutura
-- `perfis/` — perfis exportados do OrcaSlicer (impressora, filamento, processo)
+- `perfis/filamentos.csv` — catálogo fio → perfil Orca (temperaturas, ventoinha, retração, obs. PEI)
+- `perfis/qualidades.csv` — rapida/normal/fina → perfil de processo
+- `perfis/orca/{machine,filament,process}/` — perfis OrcaSlicer (JSON de usuário herdando do sistema Creality V3 KE); ver README
+- `fila/` — (futuro) trabalhos aguardando impressão
 - `modelos/` — STL/3MF organizados por projeto ou cliente
 - `problemas/` — base de conhecimento de falhas e correções
-- `scripts/` — utilitários (custo, resumo do log, validação)
+- `scripts/` — utilitários (custo, resumo do log, `validar_perfis.py`)
 - `log/impressoes.csv` — histórico de impressões
+
+## Arquitetura (decidida)
+Contexto: a impressora fica com o primo (amador, PC Windows); o dono do repo (experiente) terceiriza produção e opera remoto. Custo zero: só impressora, PC do primo, GitHub free, Tailscale free, assinatura Claude do dono, OrcaSlicer CLI.
+
+- **GitHub = fonte da verdade**: perfis curados, tabela fio→perfil, `fila/`, `log/`, código, verificador. **Nunca** chaves/tokens no repo.
+- **PC do primo (ponte)**: `git pull` automático; facilitador local (app Python no navegador, `localhost:8000`); OrcaSlicer CLI; Tailscale; opcional `claude remote-control`.
+- **Facilitador**: primo arrasta STL → escolhe filamento/qualidade/suporte → app fatia com perfil do repo → mostra tempo/peso/custo → assina e envia ao Moonraker. Sem IA no app (sem custo de API nem uso da conta do dono).
+- **Impressora**: Moonraker com `force_logins` + API key; Fluidd; verificador de assinatura HMAC (cancela impressão sem assinatura válida; chave por pessoa). Creality Cloud desativado para a regra valer.
+
+## Roadmap
+1. [x] Perfis base + tabela de filamentos/qualidades + validador (valores base, ajustar após teste)
+2. [ ] Facilitador local: OrcaSlicer CLI + envio ao Moonraker
+3. [ ] Assinatura HMAC + token Moonraker
+4. [ ] Tailscale (acesso remoto)
+5. [ ] Skill Claude para o dono
+
+Pendente: regra de assinatura das peças do primo (sugestão: chave por pessoa); custos reais (R$/kg, R$/kWh, watts) em `scripts/custo.py`; importar histórico de chats antigos; exportar perfis reais do OrcaSlicer.

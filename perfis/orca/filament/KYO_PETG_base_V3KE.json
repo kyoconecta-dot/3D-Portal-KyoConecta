@@ -1,0 +1,53 @@
+{
+    "type": "filament",
+    "name": "KYO_PETG_base_V3KE",
+    "inherits": "Generic PETG @Creality Ender-3V3-all",
+    "from": "User",
+    "instantiation": "true",
+    "filament_settings_id": [
+        "KYO_PETG_base_V3KE"
+    ],
+    "filament_type": [
+        "PETG"
+    ],
+    "filament_vendor": [
+        "Generic"
+    ],
+    "nozzle_temperature": [
+        "240"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "245"
+    ],
+    "hot_plate_temp": [
+        "75"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "80"
+    ],
+    "textured_plate_temp": [
+        "75"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "80"
+    ],
+    "fan_min_speed": [
+        "30"
+    ],
+    "fan_max_speed": [
+        "60"
+    ],
+    "filament_retraction_length": [
+        "0.8"
+    ],
+    "filament_retraction_speed": [
+        "30"
+    ],
+    "filament_max_volumetric_speed": [
+        "9"
+    ],
+    "compatible_printers": [
+        "Creality Ender-3 V3 KE 0.4 nozzle"
+    ],
+    "version": "2.3.0.0"
+}

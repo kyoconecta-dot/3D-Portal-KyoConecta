@@ -1,0 +1,53 @@
+{
+    "type": "filament",
+    "name": "KYO_PLA_base_V3KE",
+    "inherits": "Generic PLA @Creality Ender-3V3-all",
+    "from": "User",
+    "instantiation": "true",
+    "filament_settings_id": [
+        "KYO_PLA_base_V3KE"
+    ],
+    "filament_type": [
+        "PLA"
+    ],
+    "filament_vendor": [
+        "Generic"
+    ],
+    "nozzle_temperature": [
+        "210"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "215"
+    ],
+    "hot_plate_temp": [
+        "60"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "65"
+    ],
+    "textured_plate_temp": [
+        "60"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "65"
+    ],
+    "fan_min_speed": [
+        "100"
+    ],
+    "fan_max_speed": [
+        "100"
+    ],
+    "filament_retraction_length": [
+        "0.6"
+    ],
+    "filament_retraction_speed": [
+        "35"
+    ],
+    "filament_max_volumetric_speed": [
+        "15"
+    ],
+    "compatible_printers": [
+        "Creality Ender-3 V3 KE 0.4 nozzle"
+    ],
+    "version": "2.3.0.0"
+}

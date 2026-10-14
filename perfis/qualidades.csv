@@ -1,0 +1,4 @@
+id,altura_camada_mm,perfil_orca,perfil_sistema_base,descricao,status
+rapida,0.24,process/KYO_rapida_0.24_V3KE.json,0.24mm Draft @Creality Ender3V3KE,prototipo/peca grande; 0.24 mm; prioriza tempo,"base, ajustar apos teste"
+normal,0.2,process/KYO_normal_0.20_V3KE.json,0.20mm Standard @Creality Ender3V3KE,padrao producao; 0.20 mm; 3 paredes,"base, ajustar apos teste"
+fina,0.12,process/KYO_fina_0.12_V3KE.json,0.12mm Fine @Creality Ender3V3KE,acabamento/detalhe; 0.12 mm; parede externa 120 mm/s,"base, ajustar apos teste"
