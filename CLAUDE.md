@@ -21,6 +21,7 @@ Contexto fixo para toda sessão do Claude Code neste repositório.
 - `perfis/qualidades.csv` — rapida/normal/fina → perfil de processo
 - `perfis/orca/{machine,filament,process}/` — perfis OrcaSlicer (JSON de usuário herdando do sistema Creality V3 KE); ver README
 - `facilitador/` — app local do PC do primo (STL → OrcaSlicer CLI → Moonraker); ver README
+- `instalacao/` — kit do PC do primo: `instalar.ps1`, `configurar.py`, `diagnostico.py`, `rede.py`, `GUIA.md`, ficha `impressora.md`
 - `fila/` — (futuro) trabalhos aguardando impressão
 - `modelos/` — STL/3MF organizados por projeto ou cliente
 - `problemas/` — base de conhecimento de falhas e correções
@@ -42,10 +43,17 @@ Contexto: a impressora fica com o primo (amador, PC Windows); o dono do repo (ex
 4. [ ] Tailscale (acesso remoto)
 5. [ ] Skill Claude para o dono
 6. [ ] Orçamentos: gerar orçamento para cliente a partir do fatiamento (reaproveita `facilitador/fatiar.py`: tempo, peso, custo de filamento e energia).
-   - Usuários: 3, todos geram orçamento (dono, primo, esposa do primo).
-   - Preço: custo calculado × multiplicadores, com ajuste manual livre ("feeling") antes de fechar. Regra de precificação em desenvolvimento em chat paralelo; integrar aqui quando fechada.
+   - Usuários: 3, todos geram orçamento (Fer, Douglas, Angélica).
+   - Regra (14/10/2026, chat paralelo): sem multiplicador por cliente. Preço de tabela = (material + energia + operador + reserva de risco + manutenção + depreciação) ÷ (1 − imposto 6% − margem 35%), piso R$ 30; classes de risco A–E pelo fatiamento; desconto livre do operador com semáforo (verde/amarelo/vermelho). Fonte: `precificacao/tabela.py` no PC do Fer. Não entra neste repo enquanto ele for público.
    - PDF para o cliente com identidade KyoConecta adaptada ao braço KyoConecta 3D. Fase 1: só troca da paleta de cores. Fase 2: adaptações estéticas (ícones, pattern, fotos).
 
-Usuários do sistema: 3 (dono, primo, esposa do primo). Assinatura de impressão (passo 3): uma chave por pessoa, 3 chaves.
+Usuários do sistema: 3 (Fer = dono; Douglas e Angélica = operadores, PC do primo). Assinatura de impressão (passo 3): uma chave por pessoa, 3 chaves.
 
 Pendente: teste real do facilitador no Windows + impressora; sincronizar `facilitador/trabalhos/historico.csv` com `log/impressoes.csv`; custos reais (R$/kg, R$/kWh, watts) em `scripts/custo.py`; importar histórico de chats antigos; exportar perfis reais do OrcaSlicer.
+
+## No PC do primo (Claude Code local)
+- Primeiro passo de qualquer problema: `python instalacao/diagnostico.py` (rápido: `--sem-fatiar`).
+- Impressora sumiu da rede: `python instalacao/rede.py`, depois `python instalacao/configurar.py`.
+- `facilitador/config.local.json` tem a chave da impressora: nunca commitar, nunca colar em chat.
+- Não editar perfis aqui: mudanças de perfil são feitas pelo Fer e chegam pelo `git pull` (tarefa agendada de hora em hora).
+- Log de cada trabalho: `facilitador/trabalhos/<id>/orca.log`; histórico: `facilitador/trabalhos/historico.csv`.
