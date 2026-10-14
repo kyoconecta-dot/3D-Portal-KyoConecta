@@ -41,6 +41,11 @@ Contexto: a impressora fica com o primo (amador, PC Windows); o dono do repo (ex
 3. [ ] Assinatura HMAC + token Moonraker
 4. [ ] Tailscale (acesso remoto)
 5. [ ] Skill Claude para o dono
-6. [ ] Orçamentos: gerar orçamento para cliente a partir do fatiamento (reaproveita `facilitador/fatiar.py`: tempo, peso, custo de filamento e energia), somando margem, mão de obra, acabamento e frete; saída em PDF para o cliente. Escopo e regras de preço a definir.
+6. [ ] Orçamentos: gerar orçamento para cliente a partir do fatiamento (reaproveita `facilitador/fatiar.py`: tempo, peso, custo de filamento e energia).
+   - Usuários: 3, todos geram orçamento (dono, primo, esposa do primo).
+   - Preço: custo calculado × multiplicadores, com ajuste manual livre ("feeling") antes de fechar. Valores dos multiplicadores a importar dos chats antigos.
+   - PDF para o cliente com identidade KyoConecta adaptada ao braço KyoConecta 3D. Fase 1: só troca da paleta de cores. Fase 2: adaptações estéticas (ícones, pattern, fotos).
 
-Pendente: teste real do facilitador no Windows + impressora; sincronizar `facilitador/trabalhos/historico.csv` com `log/impressoes.csv`; regra de assinatura das peças do primo (sugestão: chave por pessoa); custos reais (R$/kg, R$/kWh, watts) em `scripts/custo.py`; importar histórico de chats antigos; exportar perfis reais do OrcaSlicer.
+Usuários do sistema: 3 (dono, primo, esposa do primo). Assinatura de impressão (passo 3): uma chave por pessoa, 3 chaves.
+
+Pendente: teste real do facilitador no Windows + impressora; sincronizar `facilitador/trabalhos/historico.csv` com `log/impressoes.csv`; custos reais (R$/kg, R$/kWh, watts) em `scripts/custo.py`; importar histórico de chats antigos; exportar perfis reais do OrcaSlicer.
