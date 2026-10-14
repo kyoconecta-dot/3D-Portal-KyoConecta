@@ -41,5 +41,6 @@ Contexto: a impressora fica com o primo (amador, PC Windows); o dono do repo (ex
 3. [ ] Assinatura HMAC + token Moonraker
 4. [ ] Tailscale (acesso remoto)
 5. [ ] Skill Claude para o dono
+6. [ ] Orçamentos: gerar orçamento para cliente a partir do fatiamento (reaproveita `facilitador/fatiar.py`: tempo, peso, custo de filamento e energia), somando margem, mão de obra, acabamento e frete; saída em PDF para o cliente. Escopo e regras de preço a definir.
 
 Pendente: teste real do facilitador no Windows + impressora; sincronizar `facilitador/trabalhos/historico.csv` com `log/impressoes.csv`; regra de assinatura das peças do primo (sugestão: chave por pessoa); custos reais (R$/kg, R$/kWh, watts) em `scripts/custo.py`; importar histórico de chats antigos; exportar perfis reais do OrcaSlicer.
