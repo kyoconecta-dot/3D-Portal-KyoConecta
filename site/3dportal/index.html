@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Kit 3D Portal</title>
+<link rel="icon" type="image/png" href="kyo-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=Exo+2:wght@500&family=Rethink+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --kyo-red: #e52033; --sumi: #1a1a1a; --black: #000; --white: #fff;
+    --gray-800: #333; --gray-400: #999; --gray-200: #ccc;
+    --surface: var(--sumi); --surface-deep: var(--black); --ink: var(--white);
+    --ink-muted: var(--gray-200); --ink-subtle: var(--gray-400); --line: var(--gray-800);
+    --accent: var(--kyo-red);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--surface); color: var(--ink); font: 400 16px/1.6 "Rethink Sans", Sora, system-ui, sans-serif; }
+  a { color: var(--ink); text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+
+  header { padding: 28px 0 8px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  header img { height: 26px; width: auto; display: block; }
+  header span { font: 400 13px/1 Sora, sans-serif; letter-spacing: .08em; color: var(--ink-subtle); text-transform: uppercase; }
+
+  .hero { text-align: center; padding: 56px 0 40px; }
+  .hero h1 { margin: 0; font: 500 clamp(28px, 6vw, 40px)/1.15 "Exo 2", Sora, sans-serif; }
+  .hero h1 strong { font-family: Sora, sans-serif; font-weight: 600; }
+  .hero p { margin: 20px auto 0; max-width: 520px; color: var(--ink-muted); }
+  .rule { width: 1px; height: 55px; background: var(--accent); margin: 32px auto 0; }
+
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  .num { font: 800 13px/1 Sora, sans-serif; color: var(--accent); letter-spacing: .08em; }
+  h2 { margin: 8px 0 16px; font: 600 clamp(22px, 4.5vw, 28px)/1.25 Sora, sans-serif; }
+  h3 { margin: 24px 0 8px; font: 600 17px/1.3 Sora, sans-serif; }
+  p, li { color: var(--ink-muted); }
+  p strong, li strong { color: var(--ink); font-weight: 600; }
+  ol, ul { padding-left: 22px; } li { margin: 6px 0; }
+
+  .check { list-style: none; padding: 0; margin: 0; }
+  .check li { margin: 0; border-bottom: 1px solid var(--line); }
+  .check label { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; cursor: pointer; }
+  .check input { appearance: none; flex: 0 0 20px; width: 20px; height: 20px; margin: 3px 0 0; border: 1px solid var(--gray-400); background: transparent; cursor: pointer; display: grid; place-content: center; }
+  .check input:checked { background: var(--accent); border-color: var(--accent); }
+  .check input:checked::after { content: ""; width: 6px; height: 11px; border: solid var(--white); border-width: 0 2px 2px 0; transform: rotate(45deg) translate(-1px, -1px); }
+  .check input:checked + span { color: var(--ink-subtle); text-decoration: line-through; text-decoration-color: var(--gray-400); }
+  .check small { display: block; color: var(--ink-subtle); font-size: 14px; }
+  .progresso { font: 400 14px/1 Sora, sans-serif; color: var(--ink-subtle); margin-top: 14px; }
+
+  .cmd { display: flex; align-items: stretch; background: var(--surface-deep); border-left: 2px solid var(--accent); margin: 12px 0; }
+  .cmd code { flex: 1; padding: 14px; font: 13px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace; color: var(--white); overflow-x: auto; white-space: pre; }
+  .cmd button { flex: 0 0 auto; border: 0; border-left: 1px solid var(--line); background: transparent; color: var(--ink); font: 600 13px/1 Sora, sans-serif; padding: 0 16px; cursor: pointer; }
+  .cmd button.ok { color: var(--accent); }
+
+  .nota { border-left: 2px solid var(--accent); padding: 4px 0 4px 16px; margin: 16px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 16px; }
+  .grid a { background: var(--surface); padding: 16px; text-decoration: none; display: block; }
+  .grid a b { display: block; font: 600 15px/1.3 Sora, sans-serif; }
+  .grid a span { font-size: 14px; color: var(--ink-subtle); }
+  .grid a:hover b { text-decoration: underline; text-decoration-color: var(--accent); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 8px 12px 0; border-bottom: 1px solid var(--line); }
+  th { font: 600 13px/1.3 Sora, sans-serif; color: var(--ink-subtle); text-transform: uppercase; letter-spacing: .06em; }
+  td:first-child { color: var(--ink); width: 40%; }
+  td { color: var(--ink-muted); }
+  td code, li code, p code { font: 13px ui-monospace, Consolas, monospace; color: var(--white); background: var(--surface-deep); padding: 1px 5px; }
+
+  footer { border-top: 1px solid var(--line); padding: 32px 0 48px; text-align: center; color: var(--ink-subtle); font: 400 13px/1.6 Sora, sans-serif; }
+
+  @media (max-width: 520px) {
+    td:first-child { width: auto; }
+    table, tbody, tr, td { display: block; } thead { display: none; }
+    tr { border-bottom: 1px solid var(--line); padding: 10px 0; } td { border: 0; padding: 2px 0; }
+  }
+  @media print { .cmd button { display: none; } body { background: #fff; color: #000; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="kyo-logo-horizontal-negativo.svg" alt="KYŌ Conecta">
+    <span>3D Portal</span>
+  </header>
+
+  <div class="hero">
+    <h1>Kit de instalação da <strong>impressora 3D</strong></h1>
+    <p>Tudo o que precisa estar pronto no PC do Douglas para fatiar, calcular custo e mandar imprimir na Ender 3 V3 KE. Leva cerca de 30 minutos.</p>
+    <div class="rule"></div>
+  </div>
+
+  <section id="antes">
+    <div class="num">00</div>
+    <h2>Antes de começar</h2>
+    <ul class="check" data-grupo="antes">
+      <li><label><input type="checkbox"><span>PC com Windows 10 ou 11 e internet<small>Pode ser o PC do dia a dia. Precisa ficar na mesma rede da impressora.</small></span></label></li>
+      <li><label><input type="checkbox"><span>Impressora ligada e no Wi-Fi da casa<small>Tela da impressora: Configurações → Rede.</small></span></label></li>
+      <li><label><input type="checkbox"><span>IP da impressora reservado no roteador<small>DHCP fixo pelo endereço MAC, para o IP não mudar depois de religar.</small></span></label></li>
+      <li><label><input type="checkbox"><span>Chave de API do Moonraker (o Fer leva)<small>Sem ela dá para instalar; a chave entra depois pelo configurador.</small></span></label></li>
+      <li><label><input type="checkbox"><span>Login do Claude (o Fer faz, opcional)<small>Só se for usar o Claude Code nesse PC.</small></span></label></li>
+    </ul>
+    <div class="progresso" data-progresso="antes"></div>
+  </section>
+
+  <section id="instalar">
+    <div class="num">01</div>
+    <h2>Rodar o instalador</h2>
+    <p>Abra o <strong>PowerShell</strong> (menu Iniciar → digite "PowerShell" → Enter), cole o comando abaixo e aperte Enter.</p>
+    <div class="cmd"><code id="c1">irm https://raw.githubusercontent.com/kyoconecta-dot/3D-Portal-KyoConecta/main/instalacao/instalar.ps1 | iex</code><button data-copiar="c1">Copiar</button></div>
+    <p>Responda às perguntas que aparecerem. Ele faz, em ordem:</p>
+    <ol>
+      <li>Instala <strong>Git</strong>, <strong>Python 3.12</strong> e <strong>OrcaSlicer</strong>; pergunta se instala o <strong>Tailscale</strong> e o <strong>Claude Code</strong>.</li>
+      <li>Baixa o repositório em <code>%USERPROFILE%\KyoConecta3D</code>.</li>
+      <li>Acha o OrcaSlicer e <strong>procura a impressora na rede sozinho</strong>; pede a chave de API (Enter pula) e os custos (R$/kg, R$/kWh, watts).</li>
+      <li>Cria o atalho <strong>Impressora 3D</strong> na área de trabalho.</li>
+      <li>Agenda a atualização automática (a cada hora).</li>
+      <li>Roda o <strong>diagnóstico</strong>. Precisa terminar em <strong>TUDO CERTO</strong>.</li>
+    </ol>
+    <div class="nota"><p>Se o Windows pedir permissão de administrador, aceite. Se aparecer "Python não apareceu no PATH", feche o PowerShell, abra de novo e cole o mesmo comando: o que já foi instalado é pulado.</p></div>
+  </section>
+
+  <section id="orca">
+    <div class="num">02</div>
+    <h2>Abrir o OrcaSlicer uma vez</h2>
+    <p>Abra o OrcaSlicer pelo menu Iniciar, escolha <strong>Creality Ender-3 V3 KE 0.4</strong> no assistente e feche. O atalho não depende disso, mas é bom o Orca estar pronto para olhar uma peça.</p>
+  </section>
+
+  <section id="teste">
+    <div class="num">03</div>
+    <h2>Primeiro teste, com o Fer junto</h2>
+    <ul class="check" data-grupo="teste">
+      <li><label><input type="checkbox"><span>Abrir o atalho <strong>Impressora 3D</strong><small>A página abre no navegador em localhost:8000.</small></span></label></li>
+      <li><label><input type="checkbox"><span>Topo mostra "Impressora: parada · bico · mesa"<small>Se mostrar erro, veja a tabela de problemas abaixo.</small></span></label></li>
+      <li><label><input type="checkbox"><span>Arrastar uma peça pequena, PETG, qualidade normal → Calcular<small>Conferir tempo e peso com o Fer.</small></span></label></li>
+      <li><label><input type="checkbox"><span>Mesa limpa → Enviar e imprimir<small>Acompanhar pelo Fluidd (endereço da impressora com :4408) ou pela câmera.</small></span></label></li>
+      <li><label><input type="checkbox"><span>Repetir com "Precisa de suporte" marcado</span></label></li>
+    </ul>
+    <div class="progresso" data-progresso="teste"></div>
+  </section>
+
+  <section id="dia">
+    <div class="num">04</div>
+    <h2>No dia a dia</h2>
+    <ol>
+      <li>Atalho <strong>Impressora 3D</strong>.</li>
+      <li>Arrastar o arquivo (STL, 3MF, OBJ ou STEP) → filamento → qualidade → suporte se tiver parte no ar.</li>
+      <li><strong>Calcular</strong> → conferir tempo, peso e custo.</li>
+      <li>Mesa limpa e filamento certo → <strong>Enviar e imprimir</strong>. Ou <strong>Só enviar</strong> para começar depois pela tela da impressora.</li>
+    </ol>
+    <p>Perfis e correções chegam sozinhos pela atualização automática. Não precisa mexer em configuração.</p>
+  </section>
+
+  <section id="problemas">
+    <div class="num">05</div>
+    <h2>Se algo der errado</h2>
+    <p>Primeiro rode o diagnóstico e mande uma foto da tela para o Fer. Os comandos são digitados no PowerShell:</p>
+    <div class="cmd"><code id="c2">cd $env:USERPROFILE\KyoConecta3D\3D-Portal-KyoConecta; py instalacao\diagnostico.py</code><button data-copiar="c2">Copiar</button></div>
+    <table>
+      <thead><tr><th>Sintoma</th><th>O que fazer</th></tr></thead>
+      <tbody>
+        <tr><td>"Impressora inacessível"</td><td>Impressora ligada? Mesma rede? Depois: <code>py instalacao\rede.py</code> para achar o IP e <code>py instalacao\configurar.py</code> para gravar.</td></tr>
+        <tr><td>"Recusou a chave de API"</td><td>Pedir a chave de novo ao Fer → <code>py instalacao\configurar.py</code>.</td></tr>
+        <tr><td>"OrcaSlicer não encontrado"</td><td><code>py instalacao\configurar.py</code> e informar o caminho do <code>orca-slicer.exe</code>.</td></tr>
+        <tr><td>Calcular falha</td><td>Rodar o diagnóstico e mandar a foto. O detalhe fica em <code>facilitador\trabalhos\…\orca.log</code>.</td></tr>
+        <tr><td>Instalador parou no meio</td><td>Fechar e abrir o PowerShell e colar o comando do passo 01 de novo.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="links">
+    <div class="num">06</div>
+    <h2>Links</h2>
+    <div class="grid">
+      <a href="https://github.com/kyoconecta-dot/3D-Portal-KyoConecta" target="_blank" rel="noopener"><b>Repositório</b><span>Código, perfis e guias</span></a>
+      <a href="https://github.com/kyoconecta-dot/3D-Portal-KyoConecta/blob/main/instalacao/GUIA.md" target="_blank" rel="noopener"><b>Guia completo</b><span>Versão detalhada deste kit</span></a>
+      <a href="https://github.com/SoftFever/OrcaSlicer/releases/tag/v2.4.2" target="_blank" rel="noopener"><b>OrcaSlicer 2.4.2</b><span>Download manual, se o winget falhar</span></a>
+      <a href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener"><b>Python</b><span>Download manual; marcar "Add to PATH"</span></a>
+      <a href="https://git-scm.com/download/win" target="_blank" rel="noopener"><b>Git for Windows</b><span>Download manual</span></a>
+      <a href="https://tailscale.com/download/windows" target="_blank" rel="noopener"><b>Tailscale</b><span>Acesso remoto do Fer (opcional)</span></a>
+      <a href="https://docs.claude.com/en/docs/claude-code/overview" target="_blank" rel="noopener"><b>Claude Code</b><span>Documentação (opcional)</span></a>
+    </div>
+  </section>
+
+  <footer>KYŌ Conecta 3D · uso interno · Ender 3 V3 KE</footer>
+</div>
+
+<script>
+  // Cópia dos comandos
+  document.querySelectorAll('[data-copiar]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var txt = document.getElementById(b.dataset.copiar).textContent;
+      var feito = function () { b.textContent = 'Copiado'; b.classList.add('ok'); setTimeout(function () { b.textContent = 'Copiar'; b.classList.remove('ok'); }, 1800); };
+      if (navigator.clipboard) { navigator.clipboard.writeText(txt).then(feito, function () {}); }
+      else { var r = document.createRange(); r.selectNode(document.getElementById(b.dataset.copiar)); getSelection().removeAllRanges(); getSelection().addRange(r); document.execCommand('copy'); feito(); }
+    });
+  });
+
+  // Checklists: progresso salvo só neste navegador
+  document.querySelectorAll('.check').forEach(function (lista) {
+    var grupo = lista.dataset.grupo, chave = 'kit3d-' + grupo;
+    var caixas = lista.querySelectorAll('input');
+    var salvo = [];
+    try { salvo = JSON.parse(localStorage.getItem(chave) || '[]'); } catch (e) {}
+    caixas.forEach(function (c, i) { c.checked = !!salvo[i]; });
+    var atualizar = function () {
+      var marcadas = Array.prototype.map.call(caixas, function (c) { return c.checked; });
+      var n = marcadas.filter(Boolean).length;
+      document.querySelector('[data-progresso="' + grupo + '"]').textContent = n + ' de ' + caixas.length + (n === caixas.length ? ' · pronto' : '');
+      try { localStorage.setItem(chave, JSON.stringify(marcadas)); } catch (e) {}
+    };
+    caixas.forEach(function (c) { c.addEventListener('change', atualizar); });
+    atualizar();
+  });
+</script>
+</body>
+</html>

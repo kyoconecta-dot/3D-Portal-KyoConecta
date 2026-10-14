@@ -22,6 +22,7 @@ Contexto fixo para toda sessão do Claude Code neste repositório.
 - `perfis/orca/{machine,filament,process}/` — perfis OrcaSlicer (JSON de usuário herdando do sistema Creality V3 KE); ver README
 - `facilitador/` — app local do PC do primo (STL → OrcaSlicer CLI → Moonraker); ver README
 - `instalacao/` — kit do PC do primo: `instalar.ps1`, `configurar.py`, `diagnostico.py`, `rede.py`, `GUIA.md`, ficha `impressora.md`
+- `site/3dportal/` — página do kit (noindex) para publicar em kyoconecta.com.br/3dportal; ver `site/README.md`
 - `fila/` — (futuro) trabalhos aguardando impressão
 - `modelos/` — STL/3MF organizados por projeto ou cliente
 - `problemas/` — base de conhecimento de falhas e correções
