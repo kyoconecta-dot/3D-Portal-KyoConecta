@@ -3,3 +3,4 @@ facilitador/config.local.json
 facilitador/trabalhos/
 __pycache__/
 *.pyc
+entregas/
